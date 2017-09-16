@@ -1,25 +1,28 @@
 
-def length_of_shortest_path(graph,start,finish):
+def shortest_path(graph,start,finish):
 
     visited = {}
     path_length = 1
-    queue = [start]
+    queue = [[start]]
 
-    while len(queue) > 0:
+    while queue:
 
-        next = []
-        for u in queue:
+        path = queue.pop(0)
+        node = path[-1]
+        if visited.get(node) is None:
+            visited[node] = "Y"
+            neighbours = graph[node]
 
-            for v in graph[u]:
+            if node == finish:
+                return path
 
-                if v == finish:
-                    return path_length
+            for neighbour in neighbours:
+                new_path = list(path)
+                new_path.append(neighbour)
+                queue.append(new_path)
 
-            path_length += 1
 
-            queue = next
 
-    return path_length
 
 
 def main():
@@ -42,7 +45,7 @@ def main():
             "MAT": ["BAT"],
             "BAT": []
             }
-    print length_of_shortest_path(example_graph,"S","F")
-    print length_of_shortest_path(example_graph_two,"CAB","BAT")
+    print len(shortest_path(example_graph,"S","F"))
+    print len(shortest_path(example_graph_two,"CAB","BAT"))
 if __name__ == "__main__":
     main()
